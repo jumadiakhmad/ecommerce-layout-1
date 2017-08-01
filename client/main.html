@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Cake Shop</title>
+
+  <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/footer.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid" style="background:rgb(56, 223, 108)">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+            <a style="color:rgb(247, 248, 252)" class="navbar-brand" href="./main.html">CakeShop.com</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a style="color:rgb(247, 248, 252)" href="#">NEW CAKES</a></li>
+            <li><a style="color:rgb(247, 248, 252)" href="#">SALE</a></li>
+            <li><a style="color:rgb(247, 248, 252)" href="#">DISTRIBUTION</a></li>
+          </ul>
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+              <button class="btn btn-primary" type="button" name="button">Search</button>
+            </div>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a style="color:rgb(247, 248, 252)" href="create_product.html" target="_blank"><span class="glyphicon glyphicon-plus"></span>Product </a></li>
+            <li><a style="color:rgb(247, 248, 252)" href="register.html" target="_blank"><span class="glyphicon glyphicon-user"></span> Register or login</a></li>
+          </ul>
+          <div class="cart">
+            <div>
+              <button style="color:rgb(250, 250, 250)" type="button" class="btn btn-primary" @click="showCart = !showCart" v-show="!verified">
+                <span class="glyphicon glyphicon-shopping-cart"></span> {{ total_item + (total_item > 1 ? " items" : " item") }}
+              </button>
+            </div>
+              <div class="btn-cart" v-show="showCart">
+                <div v-show="items.length > 0">
+                  <ul>
+                    <li v-for="item in items" transition="fade">
+                      <p><strong>{{ item.quantity }}</strong> - {{ item.price }} &nbsp;<i class="fa fa-trash fa-lg" @click="removeFromCart(item)"></i></p>
+                    </li>
+                  </ul>
+                <div><button @click="verified = true, showCart = false" class="button is-primary is-outlined">Check out</button></div>
+                </div>
+                <div v-show="items.length === 0">
+                  <p>Your cart is empty!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    <!--form update category product -->
+
+      <div class="category">
+        <form >
+          <label for="">Name</label>
+          <input type="text" v-model="name">
+          <label for="">Description</label>
+          <input type="text" v-model="description">
+          <label for="">Price</label>
+          <input type="text" v-model="price">
+          <label for="">Category</label>
+          <input type="text" v-model="category">
+          <label for="">Image</label>
+          <input type="text" v-model="image">
+          <button @click="deleteItem(item._id)">Delete Item</button>
+        </form>
+      </div>
+    <!-- endif form category product -->
+    <!-- div carousel -->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="img/kue1.jpg" alt="" style="width:100%">
+        </div>
+        <div class="item">
+          <img src="img/kue2.jpg" alt="" style="width:100%">
+        </div>
+        <div class="item">
+          <img src="img/kue4.jpg" alt="" style="width:100%">
+        </div>
+      </div>
+    </div>
+    <!--end div carousel-->
+    <hr/>
+    <!-- div all product-->
+    <div class="row">
+      <div class="col-sm-4 col-md-3">
+        <div class="list-group">
+          <h3>Categories</h3>
+          <a href="#" class="list-group-item">Kue Basah</a>
+          <a href="#" class="list-group-item">Kudapan</a>
+          <a href="#" class="list-group-item">Hantaran</a>
+          <a href="#" class="list-group-item">Camilan</a>
+          <a href="#" class="list-group-item">Kue Kering</a>
+          <a href="#" class="list-group-item">Bolu & Mini Cake</a>
+          <a href="#" class="list-group-item">Aneka Roti</a>
+        </div>
+      </div>
+      <div v-show="!verified">
+        <div class="col-sm-6 col-md-3" v-for = "item in shop">
+          <div class="thumbnail">
+            <h4 class="text-center"><span class="label label-info" style="background:rgb(56, 223, 108)">{{item.category}}</span></h4>
+            <img v-bind:src="item.image" class="img-responsive">
+            <div class="caption">
+              <div class="row">
+                <div class="col-md-6 col-xs-6">
+                  <h3>{{item.name}}</h3>
+                </div>
+                <div class="col-md-6 col-xs-6 price">
+                  <h3>
+                  <label>Rp {{item.price}}</label></h3>
+                  <h4><label>Stock:  {{item.stock}}</label></h4>
+                </div>
+              </div>
+              <p>{{item.description}}</p>
+              <div class="row">
+                <div class="col-md-6">
+                  <a class="btn btn-primary btn-product" @click="check(item)">Detail</a>
+                </div>
+                <div class="col-md-6">
+                  <button type="text" href="#" class="btn btn-success btn-product" @click="addToCart(item)">
+                    <span class="glyphicon glyphicon-shopping-cart">
+                    </span> Add Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="checkout" v-show="verified">
+          <h3><i class="fa fa-shopping-cart fa-lg">&nbsp;Total Pembayaran Kamu:</i></h3>
+          <div class="columns">
+            <div class="column column is-4">
+              <h5 v-for="item in items">Jumlah Pembelian : {{ item.quantity }} <br>Nama Item: {{ item.name }} <br> Harga Jual: {{item.price}}</h5>
+              <h5 v-for="item in items">Total Pembelian Per Kue :  Rp. {{ item.price * item.quantity }},-</h5>
+            </div>
+          </div>
+            <hr />
+          <div>
+            <div>
+              <h5 style="text-align:left">Total: </h5>
+            </div>
+            <div>
+              <h5>Rp. {{ total }},-</h5>
+            </div>
+          </div>
+          <div>
+            <div class="column column is-4 is-offset-8">
+              <a class="button is-info is-medium is-outlined" @click="checkOut()">Check Out</a>
+            </div>
+          </div>
+        </div>
+
+    </div>
+    <!-- <div id="myModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Keranjang Belanja</h4>
+          </div>
+            <table id="cart" class="table table-hover table-condensed">
+              <thead>
+                <tr>
+                  <th style="width:50%">Product</th>
+                  <th style="width:10%">Price</th>
+                  <th style="width:8%">Quantity</th>
+                  <th style="width:22%" class="text-center">Subtotal</th>
+                  <th style="width:10%"></th>
+                </tr>
+              </thead>
+                <tbody>
+                  <tr v-for="cart in carts">
+                    <td data-th="Product" >
+                      <div class="row">
+                        <div class="col-sm-3 hidden-xs"><img v-bind:src= "cart.img_url" alt="..." class="img-responsive" style=" height: 50px; width: 50px;" /></div>
+                        <div class="col-sm-7">
+                          <h5 class="nomargin">{{cart.name}}</h5>
+                        </div>
+                      </div>
+                      <td data-th="Price">{{cart.price}}</td>
+                        <td data-th="Quantity">
+                        <input type="text" class="form-control text-center" v-model="cart.jumlah" readonly>
+                      </td>
+                      <td data-th="Subtotal" class="text-center">{{cart.subtotal}}</td>
+                      <td class="actions" data-th="">
+                        <button class="btn btn-danger btn-sm" ><i class="glyphicon glyphicon-trash"></i></button>
+                      </td>
+                    </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr class="visible-xs">
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td colspan="2" class="hidden-xs"></td>
+                          <td class="hidden-xs text-center"><strong>Total RP {{total}}</strong></td>
+                          <td><a href="#" class="btn btn-success btn-block" v-on:click="checkout()">Checkout <i class="fa fa-angle-right"></i></a></td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                    </div>
+                  </div>
+                </div> -->
+
+  <!-- List New Peoduct -->
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <h2>Product Terbaru</h2>
+          <div class="thumbnail">
+            <div class="caption">
+              <div class="row">
+                <div class="catbox">
+                  <span>Kue Ultah</span>
+                    <div class="col-sm-6 cool-md-4">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReSBY8XP-CfyAXe1P6zVb5Q_Vb_8wHtPteFl1MPV0w1bPIayRl" alt="New Product">
+                    </div>
+                </div>
+                <div class="catbox">
+                  <span>Kue Couple</span>
+                    <div class="col-sm-6 cool-md-4">
+                      <img src="https://ratusouvenir.com/wp-content/uploads/2013/03/souvenir-kue-pengantin-couple.jpg" alt="New Product">
+                    </div>
+                </div>
+                <div class="catbox">
+                  <span>Biskuit Lebaran</span>
+                    <div class="col-sm-6 cool-md-4">
+                      <img src="https://usimages.detik.com/content/2012/07/21/297/biscuitctt.jpg" alt="New Product">
+                    </div>
+                </div>
+                <div class="catbox">
+                  <span>Kue Valentine</span>
+                    <div class="col-sm-6 cool-md-4">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAJjmg0bHg_hbksNvO54I1IVO2vaUDAKEl8GEVBnPalTtf-bGQ" alt="New Product">
+                    </div>
+                </div>
+                <div class="catbox">
+                  <span>Kue Sepak Bola</span>
+                    <div class="col-sm-6 cool-md-4">
+                      <img src="http://3.bp.blogspot.com/-IC9U6LPWSSI/ViGnWXfKljI/AAAAAAAAB9g/kgnun017dcQ/s1600/gambar%2Btart%2Bprinting%2Bedible%2Bkue%2Bcake%2Bhappy%2Bbirthday%2Banak.jpg" alt="New Product">
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  <!--end div  list product terbaru -->
+</div>
+
+
+<script>
+  var app = new Vue({
+    el: "#app",
+    data: {
+      //message : 'tes vue js',
+      items: [],
+      shop: [],
+      showCart: false,
+      verified: false,
+      total_item: 0,
+      name: '',
+      description:'',
+      price: null,
+      category:'',
+      image: ''
+    },
+    mounted() {
+      axios.get("http://localhost:3000/cakes")
+      .then( response => this.shop = response.data)
+      .catch( err => console.log(err));
+    },
+    computed: {
+      total() {
+       var total = 0;
+       total = this.items.reduce((sum, current) => sum + (current.quantity * current.price), 0);
+       return total;
+      }
+    },
+    methods: {
+      deleteItem: function(_id) {
+        console.log('ini ada d addItem')
+        var self = this
+
+        axios.delete(`http://localhost:3000/cakes/${_id}`)
+          // name:         self.name,
+          // description:  self.description,
+          // price:        self.price,
+          // category:     self.category,
+          // image:        self.image
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      },
+      addToCart(item) {
+        let index = this.items.findIndex(element => element._id == item._id);
+        if (index !== -1) {
+          if (item.stock == 0) {
+            alert('Maaf Stock Kosong');
+          } else {
+            this.items[index].quantity++;
+            this.items[index].stock--;
+            this.total_item++;
+            alert('add to cart success');
+          }
+        } else {
+          item.quantity = 1;
+          this.items.push(item);
+          this.total_item++;
+          item.stock--;
+          alert('add to cart success');
+        }
+      },
+
+   removeFromCart(item) {
+     let index = this.items.findIndex(element => element._id == item._id);
+      this.total_item = this.total_item - this.items[index].quantity;
+      this.items.splice(index, 1);
+   }
+ }
+
+  })
+</script>
+<script>
+  $(document).ready(function() {
+    $(".dropdown-toggle").dropdown();
+  });
+  $(document).ready(function() {
+
+    $('.btn-slide').click(function() {
+      $('#panel').slideToggle('slow');
+      $(this).toggleClass('active');
+      return false;
+    });
+
+  });
+</script>
+</body>
+
+</html>

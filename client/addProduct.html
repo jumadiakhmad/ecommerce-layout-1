@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+     <head>
+          <meta charset="utf-8">
+          <title>Ecommerce</title>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+          <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+          <script src="https://unpkg.com/vue"></script>
+          <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+
+          <style>
+               .carousel-inner .item img{
+                    height: 450px;
+               }
+               .col-md-3 .thumbnail img {
+                    height: 155px;
+               }
+               #footer {
+                    background-image: url('img/baground-footer.jpg');
+               }
+               .badge-notify{
+                 background:red;
+                 position:relative;
+                 top: -12px;
+                 right: 15px;
+               }
+               .badge {
+                   background:red;
+               }
+          </style>
+
+     </head>
+     <body>
+          <div id="app" class="container">
+               <nav class="navbar navbar-default navbar-fixed-top"  >
+                  <div class="container">
+
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                      <a class="navbar-brand" href="index.html">E-Commerce</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                      <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home<span class="sr-only">(current)</span></a></li>
+
+                        <li class="dropdown">
+                          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Kategory
+                          <span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                            <li><a href="#">Handphone</a></li>
+                            <li><a href="#">Camera</a></li>
+                            <li><a href="#">Laptop</a></li>
+                          </ul>
+                        </li>
+
+                      </ul>
+                      <form class="navbar-form navbar-left" action="#" >
+                        <div class="form-group" width="100%" height="25px" >
+                          <input type="text" class="form-control" name="key" placeholder="Search" size="70%" >
+                          <button class="btn btn-default" type="submit">
+                            <i class="glyphicon glyphicon-search"></i>
+                          </button>
+                        </div>
+                      </form>
+
+
+                      <ul class="nav navbar-nav navbar-right">
+                       <li><a href="register.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                       <li><a href="register.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                       <!-- <li>
+                             <h4>
+                               <div style="float: right; cursor: pointer;">
+                                 <span class="glyphicon glyphicon-shopping-cart my-cart-icon"><span class="badge badge-notify my-cart-badge"></span></span>
+                               </div>
+                              </h4>
+                       </li> -->
+                     </ul>
+
+                    </div><!-- /.navbar-collapse -->
+                  </div><!-- /.container-fluid -->
+               </nav>
+               <br>
+               <br>
+               <br>
+               <br>
+
+
+                 <br>
+                 <br>
+               <!-- thumbnail -->
+               <div class="row " >
+                 <div class="col-sm-4 col-md-6" align="center">
+                   <div class="thumbnail" >
+                     <img :src=" item.image " alt="...">
+                     <div class="caption">
+                       <h3 align="center"> {{ item.name}} </h3>
+                       <p>{{ item.description }}</p>
+                       <h3>Rp. {{ item.price }}</h3>
+                       <button class="btn btn-danger my-cart-btn" data-id="1" data-name="product 1" data-summary="summary 1" data-price="10" data-quantity="1" data-image="img/img_1.png" >Add to Cart</button>
+                     </div>
+                   </div>
+                 </div>
+
+
+            </div>
+            <!-- End off thumbnail -->
+
+            <!-- Footer -->
+            <div id="footer">
+               <div class="container">
+                    <div class="row">
+                        <h3 class="footertext">About Us:</h3>
+                        <br>
+                         <div class="col-md-4">
+                            <center>
+                              <img src="http://oi60.tinypic.com/w8lycl.jpg" class="img-circle" alt="the-brains">
+                              <br>
+                              <h4 class="footertext">Programmer</h4>
+                              <p class="footertext">You can thank all the crazy programming here to this guy.<br>
+                            </center>
+                         </div>
+                         <div class="col-md-4">
+                            <center>
+                              <img src="http://oi60.tinypic.com/2z7enpc.jpg" class="img-circle" alt="...">
+                              <br>
+                              <h4 class="footertext">Artist</h4>
+                              <p class="footertext">All the images here are hand drawn by this man.<br>
+                            </center>
+                         </div>
+                         <div class="col-md-4">
+                            <center>
+                              <img src="http://oi61.tinypic.com/307n6ux.jpg" class="img-circle" alt="...">
+                              <br>
+                              <h4 class="footertext">Designer</h4>
+                              <p class="footertext">This pretty site and the copy it holds are all thanks to this guy.<br>
+                            </center>
+                         </div>
+                        </div>
+                        <div class="row">
+                        <p><center><a href="#">Contact Stuff Here</a> <p class="footertext">Copyright 2014</p></center></p>
+                    </div>
+               </div>
+          </div>  <!-- End of Footer -->
+
+
+       </div>
+
+       <script src="js/jquery-2.2.3.min.js"></script>
+       <script type='text/javascript' src="js/bootstrap.min.js"></script>
+       <script type='text/javascript' src="js/jquery.mycart.js"></script>
+
+       <script>
+      var app = new Vue({
+                el: '#app',
+                data: {
+                     item : {}
+                },
+                methods : {
+                     getItemProduct () {
+                          var self = this
+                          axios.get('http://localhost:3000/cakes/598021c97350bd55beb8947e')
+                          .then(function(response) {
+                               console.log(response);
+                               self.item = response.data
+                          })
+                          .catch((err) => {
+                               console.log(err);
+                          })
+                     }
+                },
+                created () {
+                     this.getItemProduct()
+                }
+           })
+      </script>
+
+     </body>
+</html>
+<!-- http://www.jqueryscript.net/demo/Simple-Shopping-Cart-Plugin-With-jQuery-Bootstrap-mycart/ -->
