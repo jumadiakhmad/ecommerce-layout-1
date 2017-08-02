@@ -7,9 +7,12 @@ var customersSchema = new Schema({
     unique: true,
 
   },
-  username: String,
+  username: {
+    type: String,
+    unique: true
+  },
   password: String,
-  role: String
+  email: String,
 });
 
 var Customers = mongoose.model('Customers', customersSchema);

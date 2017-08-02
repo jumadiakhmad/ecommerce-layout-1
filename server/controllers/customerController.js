@@ -4,19 +4,20 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const secret = process.env.SECRET_KEY;
 
-function createCustomer(req, res) {
+function signUp(req, res) {
   let hash = bcrypt.hashSync(req.body.password, 8);
 
   Customers.create({
-    username: req.body.username,
     name: req.body.name,
-    password: hash
+    username: req.body.username,
+    password: hash,
+    email: req.body.email
 
   }, function(err, result) {
     if (err) {
       res.send(err.message);
     }
-    console.log("Insert userr Success:");
+    console.log("Sign Up Success:");
     console.log(result);
     res.send(result);
   });
@@ -120,5 +121,5 @@ function updateCustomer(req, res) {
 }
 
 module.exports = {
-  login, getAll, getSingle, createCustomer, deleteCustomer, updateCustomer
+  login, getAll, getSingle, signUp, deleteCustomer, updateCustomer
 }
